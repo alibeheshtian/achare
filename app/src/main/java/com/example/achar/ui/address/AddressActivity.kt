@@ -4,42 +4,51 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.blankj.utilcode.util.ToastUtils
 import com.example.achar.R
 import com.example.achar.adapters.AddressAdapter
 import com.example.achar.base.BaseActivity
-import com.example.achar.webService.ApiService
 import com.example.achar.webService.models.sucsess.AddressModel
 import kotlinx.android.synthetic.main.activity_address_list.*
-import org.kodein.di.generic.instance
 
-class AddressListActivity : BaseActivity(layout = R.layout.activity_address_list) {
-    private val apiService: ApiService by instance()
+class AddressActivity : BaseActivity(layout = R.layout.activity_address_list) {
+    private val viewModel by viewModels<AddressViewModel> { AddressViewModel.Factory(this) }
+
+
     private val adapter = AddressAdapter {
-
+        ToastUtils.showLong(it.firstName)
     }
 
     override fun viewIsReady(savedInstanceState: Bundle?) {
+        initView()
 
-        loading.observe(this, Observer { isLoading ->
-            pb.visibility = if (isLoading) View.VISIBLE else View.GONE
+        initViewModel()
+
+    }
+
+    private fun initViewModel() {
+        viewModel.getAddressFromServer()
+
+        viewModel.addressesLiveData.observe(this, Observer { addresses ->
+            adapter.submit(addresses)
         })
 
+        viewModel.loading.observe(this, Observer { isLoading ->
+            pb.visibility = if (isLoading) View.VISIBLE else View.GONE
+        })
+    }
+
+    private fun initView() {
         rv_address.layoutManager = LinearLayoutManager(this)
         rv_address.adapter = adapter
-
-        callService(apiService.addresses(),
-            onSuccess = { address ->
-                adapter.submit(address)
-            }
-        )
 
         fab.setOnClickListener {
             val intent = Intent(this, AddressAddActivity::class.java)
             startActivityForResult(intent, RESULT_FROM_ADD_ADDRESS)
         }
-
     }
 
     companion object {

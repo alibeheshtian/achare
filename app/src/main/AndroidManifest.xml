@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".ui.address.AddressListActivity"
+            android:name=".ui.address.AddressActivity"
             android:label="@string/title_activity_address_list"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">

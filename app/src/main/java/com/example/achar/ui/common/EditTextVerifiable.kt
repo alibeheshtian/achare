@@ -1,4 +1,4 @@
-package com.example.achar.ui.common.widget
+package com.example.achar.ui.common
 
 import android.content.Context
 import android.content.res.TypedArray

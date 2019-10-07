@@ -4,4 +4,6 @@
     <string name="confirm_the_position">Confirm the position</string>
     <string name="title_activity_address_list">Addresses</string>
     <string name="next_step">مرحله بعد</string>
+    <string name="check_your_internet">Check Your Internt</string>
+    <string name="retry">Retry</string>
 </resources>

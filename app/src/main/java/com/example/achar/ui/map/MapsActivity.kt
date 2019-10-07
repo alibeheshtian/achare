@@ -6,7 +6,6 @@ import android.os.Bundle
 import com.example.achar.R
 import com.example.achar.base.BaseActivity
 import com.example.achar.ui.address.AddressAddActivity
-import com.example.achar.ui.address.AddressListActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback

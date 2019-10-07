@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/back"
@@ -13,9 +14,12 @@
         android:background="@color/white"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,7 +44,7 @@
                 android:orientation="vertical"
                 app:layout_constraintTop_toBottomOf="@id/tv_title">
 
-                <com.example.achar.ui.common.widget.EditTextVerifiable
+                <com.example.achar.ui.common.EditTextVerifiable
                     android:id="@+id/tv_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -49,7 +53,7 @@
                     android:layout_marginEnd="16dp"
                     app:label="نام" />
 
-                <com.example.achar.ui.common.widget.EditTextVerifiable
+                <com.example.achar.ui.common.EditTextVerifiable
                     android:id="@+id/tv_family"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -57,7 +61,7 @@
                     android:layout_marginEnd="16dp"
                     app:label="نام خانوادگی" />
 
-                <com.example.achar.ui.common.widget.EditTextVerifiable
+                <com.example.achar.ui.common.EditTextVerifiable
                     android:id="@+id/tv_mobile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -65,7 +69,7 @@
                     android:layout_marginEnd="16dp"
                     app:label="تلفن همراه" />
 
-                <com.example.achar.ui.common.widget.EditTextVerifiable
+                <com.example.achar.ui.common.EditTextVerifiable
                     android:id="@+id/tv_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -83,7 +87,7 @@
                 android:padding="16dp"
                 app:layout_constraintTop_toBottomOf="@id/ll_info">
 
-                <com.example.achar.ui.common.widget.EditTextVerifiable
+                <com.example.achar.ui.common.EditTextVerifiable
                     android:id="@+id/et_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -129,5 +133,15 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
+    <ProgressBar
+        android:id="@+id/pb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

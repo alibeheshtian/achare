@@ -3,16 +3,17 @@ package com.example.achar.ui.address
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import com.blankj.utilcode.util.RegexUtils
 import com.example.achar.R
 import com.example.achar.base.BaseActivity
 import com.example.achar.ui.map.MapsActivity
-import com.example.achar.webService.ApiService
 import kotlinx.android.synthetic.main.activity_address_add.*
-import org.kodein.di.generic.instance
 
 class AddressAddActivity : BaseActivity(layout = R.layout.activity_address_add) {
-    private val apiService: ApiService by instance()
+    private val viewModel by viewModels<AddressViewModel> { AddressViewModel.Factory(this) }
 
     override fun viewIsReady(savedInstanceState: Bundle?) {
 
@@ -62,7 +63,19 @@ class AddressAddActivity : BaseActivity(layout = R.layout.activity_address_add) 
 
         }
 
+        viewModel.addAddressLiveData.observe(this, Observer { address ->
+            val returnIntent = Intent(this, AddressActivity::class.java)
+            returnIntent.putExtra(
+                AddressActivity.KEY_ADDRESS,
+                address
+            )
+            setResult(Activity.RESULT_OK, returnIntent)
+            finish()
+        })
 
+        viewModel.loading.observe(this, Observer {
+            pb.visibility = if (it) View.VISIBLE else View.GONE
+        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -83,7 +96,16 @@ class AddressAddActivity : BaseActivity(layout = R.layout.activity_address_add) 
                         val address = et_address.getText().toString()
                         val gender = if (tb_gender.isChecked) "Male" else "Female"
 
-                        addAddress(address, lat, lng, mobile, phone, name, family, gender)
+                        viewModel.addAddressFromServer(
+                            address,
+                            lat,
+                            lng,
+                            mobile,
+                            phone,
+                            name,
+                            family,
+                            gender
+                        )
 
                     }
 
@@ -93,44 +115,6 @@ class AddressAddActivity : BaseActivity(layout = R.layout.activity_address_add) 
         }
     }
 
-    private fun addAddress(
-        address: String,
-        lat: Double,
-        lng: Double,
-        mobile: String,
-        phone: String,
-        name: String,
-        family: String,
-        gender: String
-    ) {
-        val param = HashMap<String, String>().apply {
-            put("region", "1")
-            put("address", address)
-            put("lat", lat.toString())
-            put("lng", lng.toString())
-            put("coordinate_mobile", mobile)
-            put("coordinate_phone_number", phone)
-            put("first_name", name)
-            put("last_name", family)
-            put("gender", gender)
-        }
-
-        callService(apiService.addressAdd(param),
-            onSuccess = { addressRes ->
-                addressRes?.let {
-                    val returnIntent = Intent(this,AddressListActivity::class.java)
-                    returnIntent.putExtra(
-                        AddressListActivity.KEY_ADDRESS,
-                        addressRes
-                    )
-                    setResult(Activity.RESULT_OK, returnIntent)
-                    finish()
-                }
-
-            }, onError = {
-
-            })
-    }
 
     companion object {
         private const val RESULT_FROM_MAP = 201
