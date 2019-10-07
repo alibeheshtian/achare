@@ -1,0 +1,47 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext.KOTLIN_VERSION = '1.3.50'
+    repositories {
+        maven { url 'https://maven.google.com' }
+        google()
+        jcenter()
+        
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+
+}
+
+allprojects {
+    repositories {
+        maven { url 'https://maven.google.com' }
+        google()
+        jcenter()
+        
+    }
+}
+
+
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+
+ext {
+    APP_VERSION_NUMBER = "1.0"
+    APP_VERSION_CODE = 1
+
+    MIN_SDK_VERSION = 21
+    TARGET_SDK_VERSION = 29
+    COMPILE_SDK_VERSION = 29
+
+    BASE_URL = '"http://stage.achareh.ir/api/"'
+
+    BUILD_TOOLS_VERSION = '29.0.2'
+}
